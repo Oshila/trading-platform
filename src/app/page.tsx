@@ -1,103 +1,95 @@
-import Image from "next/image";
+// Project: TradingPlatform
+// Framework: Next.js 14 (App Router)
+// Styling: Tailwind CSS
+// Backend: Firebase + Telegram Push
 
-export default function Home() {
+// File: src/app/page.tsx (Landing Page)
+
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white">
+      <header className="p-6 border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">TradingPlatform</h1>
+          <nav className="space-x-4">
+            <a href="#features" className="hover:underline">Features</a>
+            <a href="#pricing" className="hover:underline">Pricing</a>
+            <a href="/login" className="bg-white text-black px-4 py-2 rounded-xl">Login</a>
+          </nav>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </header>
+
+      <section className="py-24 px-6 text-center max-w-4xl mx-auto">
+        <h2 className="text-5xl font-extrabold mb-6">Trade Smarter. Earn Better.</h2>
+        <p className="text-xl text-white/70 mb-10">Join a trusted space where you grow with every trade — reliable signals, clear pricing, and real results.</p>
+        <a href="/register" className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-lg font-semibold">Get Started</a>
+      </section>
+
+      <section id="features" className="py-20 bg-white text-black">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-10 px-6">
+          <div className="p-6 rounded-xl shadow-lg border border-gray-200">
+            <h3 className="text-xl font-bold mb-2">Private Signal Room</h3>
+            <p>Only your paid subscribers can access premium trading calls securely.</p>
+          </div>
+          <div className="p-6 rounded-xl shadow-lg border border-gray-200">
+            <h3 className="text-xl font-bold mb-2">Telegram Push Updates</h3>
+            <p>Instantly deliver accurate and timely alerts to all your clients via Telegram.</p>
+          </div>
+          <div className="p-6 rounded-xl shadow-lg border border-gray-200">
+            <h3 className="text-xl font-bold mb-2">Designed for Traders</h3>
+            <p>Built with you in mind — clean layout, fast performance, and intuitive flows for seamless trading support.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" className="py-20 px-6 bg-white text-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-4 text-blue-800">Choose Your Plan</h2>
+          <p className="text-gray-600 mb-12">Flexible pricing for every trader. Upgrade anytime.</p>
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition">
+              <h3 className="text-xl font-bold text-blue-700">Bronze</h3>
+              <p className="my-2 text-lg font-semibold">$25 / 2 Weeks</p>
+              <ul className="text-sm text-gray-700 mb-4 space-y-1">
+                <li>Access to VIP Signal Room</li>
+                <li>Telegram Notifications</li>
+              </ul>
+              <a href="/login" className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition">Subscribe</a>
+            </div>
+
+            <div className="p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition">
+              <h3 className="text-xl font-bold text-blue-700">Silver</h3>
+              <p className="my-2 text-lg font-semibold">$50 / 1 Month</p>
+              <ul className="text-sm text-gray-700 mb-4 space-y-1">
+                <li>Everything in Bronze</li>
+                <li>Priority Entry Signals</li>
+              </ul>
+              <a href="/login" className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition">Subscribe</a>
+            </div>
+
+            <div className="p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition">
+              <h3 className="text-xl font-bold text-blue-700">Gold</h3>
+              <p className="my-2 text-lg font-semibold">$100 / 2 Months</p>
+              <ul className="text-sm text-gray-700 mb-4 space-y-1">
+                <li>All Silver Features</li>
+                <li>Weekly Market Breakdown</li>
+              </ul>
+              <a href="/login" className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition">Subscribe</a>
+            </div>
+
+            <div className="p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition">
+              <h3 className="text-xl font-bold text-blue-700">Platinum</h3>
+              <p className="my-2 text-lg font-semibold">$600 / 1 Year</p>
+              <ul className="text-sm text-gray-700 mb-4 space-y-1">
+                <li>Everything Unlocked</li>
+                <li>1-on-1 Strategy Session</li>
+                <li>Lifetime Chart Templates</li>
+              </ul>
+              <a href="/login" className="bg-blue-600 text-white w-full py-2 rounded-xl hover:bg-blue-700 transition" >Subscribe</a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
-}
+} // END OF PAGE
