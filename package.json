@@ -16,7 +16,8 @@
     "next": "15.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-paystack": "^6.0.0"
+    "react-paystack": "^6.0.0",
+    "lucide-react": "^0.514.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
