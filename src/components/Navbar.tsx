@@ -5,14 +5,15 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { auth } from '@/lib/firebase'
 import { signOut } from 'firebase/auth'
-import { usePlan } from '@/context/PlanContext'  // usePlan from context
 
-export default function Navbar() {
+interface NavbarProps {
+  hasPlan: boolean
+}
+
+export default function Navbar({ hasPlan }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname() || ''
-
-  const { hasPlan, loading } = usePlan()
 
   const hideNavbarPaths = [
     '/',
@@ -46,7 +47,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="text-black font-extrabold text-xl tracking-wide">
-            TradePro
+            OshilaFx
           </Link>
 
           {/* Desktop Menu */}
@@ -63,8 +64,7 @@ export default function Navbar() {
             <Link href="/plans" className="text-gray-700 hover:text-blue-600 transition">
               Services / Plans
             </Link>
-            {/* Show Signal Room ONLY if user has plan and plan data loaded */}
-            {hasPlan && !loading && (
+            {hasPlan && (
               <Link href="/signals" className="text-gray-700 hover:text-blue-600 transition">
                 Signal Room
               </Link>
@@ -135,8 +135,7 @@ export default function Navbar() {
             <Link href="/plans" onClick={() => setIsOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-100 transition">
               Services / Plans
             </Link>
-            {/* Mobile Signal Room Link */}
-            {hasPlan && !loading && (
+            {hasPlan && (
               <Link href="/signals" onClick={() => setIsOpen(false)} className="block py-2 px-3 rounded hover:bg-gray-100 transition">
                 Signal Room
               </Link>
@@ -172,4 +171,5 @@ export default function Navbar() {
     </>
   )
 }
+
 
