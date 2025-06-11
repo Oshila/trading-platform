@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { PaystackButton } from 'react-paystack'
 import { auth, firestore } from '../../lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import {
@@ -86,7 +85,7 @@ export default function PlansPage() {
       <h1 className="text-4xl font-bold mb-10 text-center">Choose Your Plan</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {plans.map((plan) => {
-          const handleSuccess = async (reference: any) => {
+          const handleSuccess = async (reference: { reference: string }) => {
             alert('Payment successful! Reference: ' + reference.reference)
 
             try {

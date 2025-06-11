@@ -8,7 +8,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
       <header className="p-4 flex justify-end">
         <Link href="/register" className="text-white-400 hover:underline">
-          Don't have an account? Register
+          {"Don't have an account? Register"}
         </Link>
       </header>
 
@@ -18,3 +18,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

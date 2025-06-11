@@ -20,7 +20,7 @@ interface SubscriptionPlan {
   paidAt: { toDate: () => Date }
   status: string
   uid: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export default function MySubscription() {
@@ -54,7 +54,6 @@ export default function MySubscription() {
         const duration = plan.duration?.toLowerCase() ?? ''
 
         let calculatedEnd: Date | null = null
-        // Extract number from duration, e.g. "3 months" -> 3, "month" -> 1
         const match = duration.match(/\d+/)
         const count = match ? parseInt(match[0]) : 1
 
@@ -110,7 +109,7 @@ export default function MySubscription() {
   if (loading) {
     return (
       <>
-        <Navbar/>
+        <Navbar />
         <div className="flex justify-center items-center min-h-[200px]">
           <p className="text-gray-500 text-lg font-medium">Loading your subscription...</p>
         </div>
@@ -121,7 +120,7 @@ export default function MySubscription() {
   if (error) {
     return (
       <>
-        <Navbar/>
+        <Navbar />
         <div className="flex flex-col justify-center items-center min-h-[200px] space-y-4">
           <p className="text-red-600 text-lg font-semibold">{error}</p>
           {userUid && (
@@ -140,10 +139,10 @@ export default function MySubscription() {
   if (!currentPlan) {
     return (
       <>
-        <Navbar/>
+        <Navbar />
         <div className="flex justify-center items-center min-h-[200px]">
           <p className="text-red-600 text-lg font-semibold">
-            You don't have an active subscription plan yet.
+            You don&apos;t have an active subscription plan yet.
           </p>
         </div>
       </>
@@ -152,7 +151,7 @@ export default function MySubscription() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
 
       <div className="max-w-md mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
@@ -210,6 +209,7 @@ export default function MySubscription() {
     </>
   )
 }
+
 
 
 

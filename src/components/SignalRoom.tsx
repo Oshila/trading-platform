@@ -9,6 +9,7 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp,
+  Timestamp,
 } from 'firebase/firestore'
 import { User } from 'firebase/auth'
 
@@ -16,28 +17,31 @@ interface SignalRoomProps {
   user: User
 }
 
+type Message = {
+  id: string
+  text: string
+  sender: 'admin' | 'user'
+  timestamp?: Timestamp
+}
+
 export default function SignalRoom({ user }: SignalRoomProps) {
-  const [messages, setMessages] = useState<any[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const ADMIN_UID = 'BenuQF3rJeZOt0dfj7RKWMZ1HzC3'
 
   useEffect(() => {
-    // Listen to signals collection live
     const q = query(collection(firestore, 'signals'), orderBy('timestamp', 'asc'))
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setMessages(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }))
-      )
+      const messageData: Message[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Message[]
+      setMessages(messageData)
     })
 
-    return () => {
-      unsubscribe()
-    }
+    return () => unsubscribe()
   }, [])
 
   const sendMessage = async () => {
@@ -117,3 +121,4 @@ export default function SignalRoom({ user }: SignalRoomProps) {
     </div>
   )
 }
+

@@ -62,10 +62,15 @@ export default function AuthForm({ type }: AuthFormProps) {
 
         router.push('/dashboard');
       }
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Something went wrong');
-    }
+   } catch (err: unknown) {
+  console.error(err);
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError('Something went wrong');
+  }
+}
+
   };
 
   return (

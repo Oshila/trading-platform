@@ -2,12 +2,20 @@
 
 import { PaystackButton } from 'react-paystack'
 
+type PaystackSuccessResponse = {
+  reference: string
+  status: string
+  trans: string
+  transaction: string
+  message: string
+}
+
 type PaystackWrapperProps = {
   email: string
   amount: number
   publicKey: string
   planName: string
-  onSuccess: (reference: any) => void
+  onSuccess: (reference: PaystackSuccessResponse) => void
   onClose: () => void
 }
 
@@ -32,3 +40,4 @@ export default function PaystackWrapper({
     />
   )
 }
+

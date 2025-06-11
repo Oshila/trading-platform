@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { auth, firestore } from '../../lib/firebase'
-import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore'
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  Timestamp // ✅ Import Timestamp
+} from 'firebase/firestore'
 import { onAuthStateChanged, User } from 'firebase/auth'
 
 type Payment = {
@@ -10,10 +17,11 @@ type Payment = {
   planName: string
   amount: number
   duration: string
-  paidAt: any
+  paidAt: Timestamp // ✅ Correct type here
   status: string
   reference: string
 }
+
 
 export default function PaymentHistory() {
   const [payments, setPayments] = useState<Payment[]>([])

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { firestore } from '@/lib/firebase'
 import {
   collection,
   query,
@@ -9,8 +8,9 @@ import {
   getDocs,
   updateDoc,
   doc,
-  where,
+  Timestamp,
 } from 'firebase/firestore'
+import { firestore } from '@/lib/firebase'
 
 interface Payment {
   id: string
@@ -18,7 +18,7 @@ interface Payment {
   planName: string
   amount: number
   status: string
-  paidAt: any
+  paidAt: Timestamp | null
   approved?: boolean
 }
 
@@ -126,7 +126,9 @@ export default function PaymentsPage() {
 
         <select
           value={filterStatus}
-          onChange={e => setFilterStatus(e.target.value as any)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            setFilterStatus(e.target.value as 'all' | 'pending' | 'success' | 'rejected')
+          }
           className="border rounded px-4 py-2 w-full md:w-1/4 focus:outline-blue-500"
           aria-label="Filter payments by status"
         >
@@ -167,7 +169,7 @@ export default function PaymentsPage() {
                   <td className="px-4 py-2 text-sm capitalize">{payment.status}</td>
                   <td className="px-4 py-2 text-sm">
                     {payment.paidAt?.toDate
-                      ? new Date(payment.paidAt.toDate()).toLocaleString()
+                      ? payment.paidAt.toDate().toLocaleString()
                       : 'N/A'}
                   </td>
                   <td className="px-4 py-2 text-center text-sm">
@@ -206,3 +208,4 @@ export default function PaymentsPage() {
     </div>
   )
 }
+

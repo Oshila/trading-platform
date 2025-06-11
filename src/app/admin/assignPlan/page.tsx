@@ -12,6 +12,8 @@ import {
   updateDoc,
   serverTimestamp,
   orderBy,
+  DocumentData,
+  QueryDocumentSnapshot,
 } from 'firebase/firestore'
 
 const plans = [
@@ -37,14 +39,21 @@ const plans = [
   },
 ]
 
+interface AssignedUser {
+  id: string
+  uid: string
+  email: string
+  planName: string
+  planExpiry: any // Firestore Timestamp or Date
+}
+
 export default function AssignPlanPage() {
   const [email, setEmail] = useState('')
   const [selectedPlan, setSelectedPlan] = useState(plans[0])
   const [status, setStatus] = useState('')
-  const [assignedUsers, setAssignedUsers] = useState<any[]>([])
+  const [assignedUsers, setAssignedUsers] = useState<AssignedUser[]>([])
   const [loadingList, setLoadingList] = useState(false)
 
-  // Fetch assigned users with manually assigned plans
   const fetchAssignedUsers = async () => {
     setLoadingList(true)
     try {
@@ -55,13 +64,18 @@ export default function AssignPlanPage() {
         orderBy('paidAt', 'desc')
       )
       const snapshot = await getDocs(q)
-      const users = snapshot.docs.map(doc => ({
-        id: doc.id,       // payment doc id
-        ...doc.data(),    // includes uid, email, planName, planExpiry, etc
+
+      const users: AssignedUser[] = snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({
+        id: doc.id,
+        uid: doc.data().uid,
+        email: doc.data().email,
+        planName: doc.data().planName,
+        planExpiry: doc.data().planExpiry,
       }))
+
       setAssignedUsers(users)
-    } catch (error) {
-      console.error('Error fetching assigned users:', error)
+    } catch (err: unknown) {
+      console.error('Error fetching assigned users:', err)
     } finally {
       setLoadingList(false)
     }
@@ -71,7 +85,6 @@ export default function AssignPlanPage() {
     fetchAssignedUsers()
   }, [])
 
-  // Assign plan handler
   const handleAssign = async () => {
     setStatus('Assigning plan...')
     try {
@@ -89,14 +102,12 @@ export default function AssignPlanPage() {
       const expiryDate = new Date()
       expiryDate.setDate(expiryDate.getDate() + selectedPlan.durationInDays)
 
-      // Update user document
       const userRef = doc(firestore, 'users', userId)
       await updateDoc(userRef, {
         plan: selectedPlan.name,
         planExpiry: expiryDate,
       })
 
-      // Add to payments collection
       await addDoc(collection(firestore, 'payments'), {
         uid: userId,
         email,
@@ -111,16 +122,13 @@ export default function AssignPlanPage() {
 
       setStatus('✅ Plan successfully assigned')
       setEmail('')
-
-      // Refresh the list
       fetchAssignedUsers()
-    } catch (error) {
-      console.error(error)
+    } catch (err: unknown) {
+      console.error(err)
       setStatus('❌ Error assigning plan')
     }
   }
 
-  // Revoke plan handler
   const handleRevoke = async (userId: string, paymentDocId: string) => {
     setStatus('Revoking plan...')
     try {
@@ -129,25 +137,21 @@ export default function AssignPlanPage() {
         return
       }
 
-      // Clear the plan info in users collection
       const userRef = doc(firestore, 'users', userId)
       await updateDoc(userRef, {
         plan: null,
         planExpiry: null,
       })
 
-      // Update the payment record to revoked
       const paymentRef = doc(firestore, 'payments', paymentDocId)
       await updateDoc(paymentRef, {
         status: 'revoked',
       })
 
       setStatus('✅ Plan successfully revoked')
-
-      // Refresh the list
       fetchAssignedUsers()
-    } catch (error) {
-      console.error(error)
+    } catch (err: unknown) {
+      console.error(err)
       setStatus('❌ Error revoking plan')
     }
   }
@@ -220,7 +224,7 @@ export default function AssignPlanPage() {
               </div>
 
               <button
-                onClick={() => handleRevoke(uid, id)} // <-- Pass userId (uid) and paymentDocId (id)
+                onClick={() => handleRevoke(uid, id)}
                 className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
               >
                 Revoke Plan
@@ -232,4 +236,5 @@ export default function AssignPlanPage() {
     </main>
   )
 }
+
 

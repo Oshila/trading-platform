@@ -1,24 +1,21 @@
 'use client'
 
 import { ReactNode, useEffect, useState } from 'react'
-import { onAuthStateChanged, User } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth'
 import { auth, firestore } from '@/lib/firebase'
 import { collection, query, where, orderBy, limit, getDocs, doc, getDoc } from 'firebase/firestore'
 import Navbar from '@/components/Navbar'
 import AdminNavbar from '@/components/AdminNavbar'
 
 export default function ClientRootLayout({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
   const [hasPlan, setHasPlan] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser)
       if (currentUser) {
         try {
-          // Check admin flag first
           const userDocRef = doc(firestore, 'users', currentUser.uid)
           const userDocSnap = await getDoc(userDocRef)
           const userData = userDocSnap.data()
@@ -26,7 +23,6 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
           setIsAdmin(admin)
 
           if (!admin) {
-            // Only check plan for non-admin users
             const paymentsRef = collection(firestore, 'payments')
             const q = query(
               paymentsRef,
@@ -45,7 +41,7 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
 
             setHasPlan(validPlan)
           } else {
-            setHasPlan(true) // admins don't need plan
+            setHasPlan(true)
           }
         } catch (err) {
           console.error('Error checking user/admin status:', err)
@@ -69,3 +65,4 @@ export default function ClientRootLayout({ children }: { children: ReactNode }) 
     </>
   )
 }
+

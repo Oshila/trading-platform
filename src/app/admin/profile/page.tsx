@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getAuth, updateProfile } from 'firebase/auth'
 import { firestore } from '@/lib/firebase'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import Image from 'next/image'
 
 interface UserProfile {
   displayName: string
@@ -30,8 +31,8 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null)
   const [successMsg, setSuccessMsg] = useState<string | null>(null)
 
-  // Fetch profile info from Firestore (if you store extra info)
-  const fetchUserProfile = async () => {
+  // Fetch profile info
+  const fetchUserProfile = useCallback(async () => {
     if (!user) return
 
     try {
@@ -48,7 +49,6 @@ export default function ProfilePage() {
           bio: data.bio || '',
         })
       } else {
-        // Fallback to auth info only
         setProfile({
           displayName: user.displayName || '',
           email: user.email || '',
@@ -58,17 +58,17 @@ export default function ProfilePage() {
         })
       }
     } catch (err) {
+      console.error(err)
       setError('Failed to load profile data.')
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
 
   useEffect(() => {
     fetchUserProfile()
-  }, [user])
+  }, [fetchUserProfile])
 
-  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProfile(prev => ({
       ...prev,
@@ -76,7 +76,6 @@ export default function ProfilePage() {
     }))
   }
 
-  // Save profile changes
   const saveProfile = async () => {
     if (!user) return
     setSaving(true)
@@ -84,13 +83,11 @@ export default function ProfilePage() {
     setSuccessMsg(null)
 
     try {
-      // Update Firebase Auth profile displayName and photoURL
       await updateProfile(user, {
         displayName: profile.displayName,
         photoURL: profile.photoURL,
       })
 
-      // Update extra profile info in Firestore
       const docRef = doc(firestore, 'users', user.uid)
       await updateDoc(docRef, {
         phoneNumber: profile.phoneNumber,
@@ -100,8 +97,8 @@ export default function ProfilePage() {
       setSuccessMsg('Profile updated successfully!')
       setEditMode(false)
     } catch (err) {
-      setError('Failed to save profile. Try again.')
       console.error(err)
+      setError('Failed to save profile. Try again.')
     } finally {
       setSaving(false)
     }
@@ -124,10 +121,12 @@ export default function ProfilePage() {
 
       <div className="flex flex-col items-center space-y-4 mb-6">
         {profile.photoURL ? (
-          <img
+          <Image
             src={profile.photoURL}
             alt="Profile Photo"
-            className="w-28 h-28 rounded-full object-cover border-2 border-blue-500"
+            width={112}
+            height={112}
+            className="rounded-full object-cover border-2 border-blue-500"
           />
         ) : (
           <div className="w-28 h-28 rounded-full bg-gray-300 flex items-center justify-center text-4xl text-gray-500 font-semibold">
@@ -266,3 +265,4 @@ export default function ProfilePage() {
     </div>
   )
 }
+

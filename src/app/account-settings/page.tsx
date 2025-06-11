@@ -2,7 +2,13 @@
 
 import { useState } from 'react'
 import { auth } from '@/lib/firebase'
-import { updateProfile, updateEmail, reauthenticateWithCredential, EmailAuthProvider, updatePassword } from 'firebase/auth'
+import {
+  updateProfile,
+  updateEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword
+} from 'firebase/auth'
 
 export default function AccountSettings() {
   const user = auth.currentUser
@@ -32,8 +38,12 @@ export default function AccountSettings() {
       }
 
       setMessage('Profile updated successfully!')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('An unexpected error occurred.')
+      }
     } finally {
       setLoading(false)
     }
@@ -58,15 +68,18 @@ export default function AccountSettings() {
     try {
       const credential = EmailAuthProvider.credential(user.email, currentPassword)
       await reauthenticateWithCredential(user, credential)
-
       await updatePassword(user, newPassword)
 
       setMessage('Password updated successfully!')
       setCurrentPassword('')
       setNewPassword('')
       setConfirmNewPassword('')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('An unexpected error occurred.')
+      }
     } finally {
       setLoading(false)
     }
@@ -154,3 +167,4 @@ export default function AccountSettings() {
     </div>
   )
 }
+
