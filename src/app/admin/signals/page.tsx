@@ -82,7 +82,7 @@ export default function SignalRoom() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: `An update has been sent by the admin. Login and check it out: https://your-site-url.com`,
+          message: `An update has been sent by the admin. Login and check it out: https://oshilafx.vercel.app/login`,
         }),
       })
 
