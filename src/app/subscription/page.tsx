@@ -109,7 +109,7 @@ export default function MySubscription() {
   if (loading) {
     return (
       <>
-        <Navbar />
+        <Navbar hasPlan={isActive} />
         <div className="flex justify-center items-center min-h-[200px]">
           <p className="text-gray-500 text-lg font-medium">Loading your subscription...</p>
         </div>
@@ -120,7 +120,7 @@ export default function MySubscription() {
   if (error) {
     return (
       <>
-        <Navbar />
+        <Navbar hasPlan={isActive} />
         <div className="flex flex-col justify-center items-center min-h-[200px] space-y-4">
           <p className="text-red-600 text-lg font-semibold">{error}</p>
           {userUid && (
@@ -139,7 +139,7 @@ export default function MySubscription() {
   if (!currentPlan) {
     return (
       <>
-        <Navbar />
+        <Navbar hasPlan={isActive} />
         <div className="flex justify-center items-center min-h-[200px]">
           <p className="text-red-600 text-lg font-semibold">
             You don&apos;t have an active subscription plan yet.
@@ -151,7 +151,7 @@ export default function MySubscription() {
 
   return (
     <>
-      <Navbar />
+      <Navbar hasPlan={isActive} />
 
       <div className="max-w-md mx-auto mt-12 p-8 bg-white rounded-xl shadow-lg border border-gray-200">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-6 text-center">
@@ -209,6 +209,7 @@ export default function MySubscription() {
     </>
   )
 }
+
 
 
 
