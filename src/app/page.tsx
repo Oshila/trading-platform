@@ -10,7 +10,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white">
       <header className="p-6 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">TradingPlatform</h1>
+          <h1 className="text-2xl font-bold">OshilaFx-Academy</h1>
           <nav className="space-x-4">
             <a href="#features" className="hover:underline">Features</a>
             <a href="#pricing" className="hover:underline">Pricing</a>
