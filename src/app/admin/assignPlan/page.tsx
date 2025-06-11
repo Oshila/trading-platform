@@ -12,30 +12,29 @@ import {
   updateDoc,
   serverTimestamp,
   orderBy,
-  DocumentData,
-  QueryDocumentSnapshot,
+  Timestamp,
 } from 'firebase/firestore'
 
 const plans = [
   {
     name: '2 Weeks Access',
     durationInDays: 14,
-    amountInKobo: 1600000,
+    amountInKobo: 3800000,
   },
   {
     name: '1 Month Access',
     durationInDays: 30,
-    amountInKobo: 3200000,
+    amountInKobo: 7800000,
   },
   {
     name: '2 Months Access',
     durationInDays: 60,
-    amountInKobo: 10600000,
+    amountInKobo: 15600000,
   },
   {
     name: '1 Year Access',
     durationInDays: 365,
-    amountInKobo: 31800000,
+    amountInKobo: 93000000,
   },
 ]
 
@@ -44,7 +43,7 @@ interface AssignedUser {
   uid: string
   email: string
   planName: string
-  planExpiry: any // Firestore Timestamp or Date
+  planExpiry: Timestamp | Date | null
 }
 
 export default function AssignPlanPage() {
@@ -64,18 +63,19 @@ export default function AssignPlanPage() {
         orderBy('paidAt', 'desc')
       )
       const snapshot = await getDocs(q)
-
-      const users: AssignedUser[] = snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({
-        id: doc.id,
-        uid: doc.data().uid,
-        email: doc.data().email,
-        planName: doc.data().planName,
-        planExpiry: doc.data().planExpiry,
-      }))
-
+      const users: AssignedUser[] = snapshot.docs.map((docSnap) => {
+        const data = docSnap.data()
+        return {
+          id: docSnap.id,
+          uid: data.uid,
+          email: data.email,
+          planName: data.planName,
+          planExpiry: data.planExpiry || null,
+        }
+      })
       setAssignedUsers(users)
-    } catch (err: unknown) {
-      console.error('Error fetching assigned users:', err)
+    } catch (error) {
+      console.error('Error fetching assigned users:', error)
     } finally {
       setLoadingList(false)
     }
@@ -123,8 +123,8 @@ export default function AssignPlanPage() {
       setStatus('✅ Plan successfully assigned')
       setEmail('')
       fetchAssignedUsers()
-    } catch (err: unknown) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
       setStatus('❌ Error assigning plan')
     }
   }
@@ -150,8 +150,8 @@ export default function AssignPlanPage() {
 
       setStatus('✅ Plan successfully revoked')
       fetchAssignedUsers()
-    } catch (err: unknown) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
       setStatus('❌ Error revoking plan')
     }
   }
@@ -214,8 +214,8 @@ export default function AssignPlanPage() {
                 <p>
                   Ends On:{' '}
                   <span className="font-medium">
-                    {planExpiry?.toDate
-                      ? new Date(planExpiry.toDate()).toLocaleDateString()
+                    {planExpiry instanceof Timestamp
+                      ? planExpiry.toDate().toLocaleDateString()
                       : planExpiry instanceof Date
                       ? planExpiry.toLocaleDateString()
                       : 'N/A'}
