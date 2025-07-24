@@ -17,22 +17,22 @@ const PaystackWrapper = dynamic(() => import('../../components/PaystackWrapper')
 const plans = [
   {
     name: '2 Weeks Access',
-    price: '₦38,000',
-    amountInKobo: 3800000,
+    price: '₦24,000',
+    amountInKobo: 2400000,
     duration: '14 days',
     features: ['Basic trading signals', 'Email alerts'],
   },
   {
     name: '1 Month Access',
-    price: '₦78,000',
-    amountInKobo: 7800000,
+    price: '₦48,000',
+    amountInKobo: 4800000,
     duration: '30 days',
     features: ['All signals', 'Telegram group access', 'Priority email support'],
   },
   {
     name: '2 Months Access',
-    price: '₦156,000',
-    amountInKobo: 15600000,
+    price: '₦96,000',
+    amountInKobo: 9600000,
     duration: '60 days',
     features: [
       'All 1-month features',
@@ -42,8 +42,8 @@ const plans = [
   },
   {
     name: '1 Year Access',
-    price: '₦930,000',
-    amountInKobo: 93000000,
+    price: '₦576,000',
+    amountInKobo: 57600000,
     duration: '365 days',
     features: [
       'All 2-month features',
