@@ -19,7 +19,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <img src="/uweh-logo.jpg" alt="Logo" className="w-10 h-10 rounded-full object-cover" />
-            <h1 className="text-2xl font-bold">Uwehs Trade HUB</h1>
+            <h1 className="text-2xl font-bold">OshilaFx</h1>
           </div>
 
           {/* Desktop Nav */}
@@ -184,6 +184,34 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+
+            {/* Footer */}
+      <footer className="bg-blue-950 text-white py-10 px-6">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-2">OshilaFx</h3>
+            <p className="text-sm text-white/70">Empowering traders through education, signals, and community. Let's grow together.</p>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Contact</h4>
+            <p>Email: <a href="mailto:oshilafxacademy@gmail.com" className="underline">oshilafxacademy@gmail.com</a></p>
+            <p>Phone: +234 0000000000</p>
+          </div>
+          <div>
+            <h4 className="text-lg font-semibold mb-2">Follow Us</h4>
+            <div className="space-x-4">
+              <a href="https://t.me/oshilafxacademy" target="_blank" className="hover:underline">Telegram</a>
+              <a href="https://instagram.com/oshilafx" target="_blank" className="hover:underline">Instagram</a>
+              <a href="https://x.com/oshilafx" target="_blank" className="hover:underline">X (Twitter)</a>
+            </div>
+          </div>
+        </div>
+        <div className="text-center text-white/50 text-sm mt-10">
+          © {new Date().getFullYear()} OshilaFX. All rights reserved.
+        </div>
+      </footer>
+      
     </div>
   );
 } // END OF PAGE
