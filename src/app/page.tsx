@@ -3,27 +3,54 @@
 
 'use client'
 
-
+import { useState} from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import { Autoplay } from 'swiper/modules'
 
 export default function HomePage() {
+  const [mobileOpen, setMobileOpen] = useState(false)
   const sliderImages = Array.from({ length: 14 }, (_, i) => `/profits/sample${i + 1}.jpg`)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white">
       <header className="p-6 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">OshilaFx-Academy</h1>
-          <nav className="space-x-4">
+          <div className="flex items-center space-x-3">
+            <img src="/uweh-logo.jpg" alt="Logo" className="w-10 h-10 rounded-full object-cover" />
+            <h1 className="text-2xl font-bold">Uwehs Trade HUB</h1>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex space-x-4">
             <a href="#features" className="hover:underline">Features</a>
             <a href="#pricing" className="hover:underline">Pricing</a>
-              <a href="#profits" className="hover:underline">Trade Setups</a>
-            <a href="/login" className="bg-white text-black px-4 py-2 rounded-xl">Login</a>
+            <a href="#profits" className="hover:underline">Trade Setups</a>
+            <a href="/login" className="bg-white text-black px-4 py-2 rounded-xl hover:bg-gray-200 transition">Login</a>
           </nav>
+
+          {/* Mobile Toggle */}
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileOpen && (
+          <div className="md:hidden mt-4 px-4 space-y-3">
+            <a href="#features" className="block hover:underline">Features</a>
+            <a href="#pricing" className="block hover:underline">Pricing</a>
+            <a href="#profits" className="block hover:underline">Trade Setups</a>
+            <a href="/login" className="block bg-white text-black px-4 py-2 rounded-xl w-max hover:bg-gray-200 transition">Login</a>
+          </div>
+        )}
       </header>
 
       <section className="py-24 px-6 text-center max-w-4xl mx-auto">
